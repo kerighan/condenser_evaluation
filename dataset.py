@@ -3,6 +3,26 @@ import pandas as pd
 from convectors.layers import OneHot, Sequence, Tokenize
 
 
+def load_AG():
+    MAXLEN = 600
+    MAX_FEATURES = 100000
+
+    train = pd.read_csv("ag/train.csv")
+    test = pd.read_csv("ag/test.csv")
+    train["text"] = train.Title + " " + train.Description
+    test["text"] = test.Title + " " + test.Description
+    y_train = train["Class Index"].astype(int).values
+    y_test = test["Class Index"].astype(int).values
+
+    nlp = Tokenize(strip_punctuation=False, lower=True)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp.verbose = False
+    X_train = nlp(train.text)
+    X_test = nlp(test.text)
+
+    return (X_train, y_train), (X_test, y_test)
+
+
 def load_20NG():
     from sklearn.datasets import fetch_20newsgroups
     MAXLEN = 600
@@ -29,7 +49,6 @@ def load_MR():
     MAXLEN = 600
     MAX_FEATURES = 100000
 
-    import pandas as pd
     data = pd.DataFrame(
         open("mr/mr.clean.txt").read().split("\n"),
         columns=["text"])
@@ -134,3 +153,10 @@ def load(dataset):
         return load_imdb()
     elif dataset == "r8":
         return load_r8()
+    elif dataset == "AG":
+        return load_AG()
+
+
+if __name__ == "__main__":
+    (X_train, y_train), (X_test, y_test) = load_AG()
+    print(X_train)
