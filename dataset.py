@@ -155,6 +155,8 @@ def load(dataset):
         return load_r8()
     elif dataset == "AG":
         return load_AG()
+    else:
+        raise FileNotFoundError("Dataset not found")
 
 
 if __name__ == "__main__":
