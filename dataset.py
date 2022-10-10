@@ -3,10 +3,7 @@ import pandas as pd
 from convectors.layers import OneHot, Sequence, Tokenize
 
 
-def load_AG():
-    MAXLEN = 600
-    MAX_FEATURES = 100000
-
+def load_AG(maxlen=400, max_features=100000):
     train = pd.read_csv("ag/train.csv")
     test = pd.read_csv("ag/test.csv")
     train["text"] = train.Title + " " + train.Description
@@ -15,7 +12,7 @@ def load_AG():
     y_test = test["Class Index"].astype(int).values
 
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
+    nlp += Sequence(max_features=max_features, maxlen=maxlen, unk_token=False)
     nlp.verbose = False
     X_train = nlp(train.text)
     X_test = nlp(test.text)
@@ -23,10 +20,8 @@ def load_AG():
     return (X_train, y_train), (X_test, y_test)
 
 
-def load_20NG():
+def load_20NG(maxlen=600, max_features=100000):
     from sklearn.datasets import fetch_20newsgroups
-    MAXLEN = 600
-    MAX_FEATURES = 100000
 
     # get training data
     newsgroups_train = fetch_20newsgroups(subset='train')
@@ -34,7 +29,7 @@ def load_20NG():
 
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(maxlen=MAXLEN, max_features=MAX_FEATURES)
+    nlp += Sequence(maxlen=maxlen, max_features=max_features)
     nlp.verbose = False
     # process train data
     X_train = nlp(newsgroups_train.data)
@@ -45,10 +40,7 @@ def load_20NG():
     return (X_train, y_train), (X_test, y_test)
 
 
-def load_MR():
-    MAXLEN = 600
-    MAX_FEATURES = 100000
-
+def load_MR(maxlen=600, max_features=100000):
     data = pd.DataFrame(
         open("mr/mr.clean.txt").read().split("\n"),
         columns=["text"])
@@ -64,7 +56,7 @@ def load_MR():
     test = data[data.dataset == "test"]
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
+    nlp += Sequence(max_features=max_features, maxlen=maxlen, unk_token=False)
     nlp.verbose = False
     X_train = nlp(train.text)
     X_test = nlp(test.text)
@@ -73,9 +65,7 @@ def load_MR():
     return (X_train, y_train), (X_test, y_test)
 
 
-def load_ohsumed():
-    MAXLEN = 500
-    MAX_FEATURES = 100000
+def load_ohsumed(maxlen=500, max_features=100000):
     one_hot = OneHot(verbose=False)
     # get training data
     train = pd.read_csv(f"oh/oh-train-stemmed.csv")
@@ -83,7 +73,7 @@ def load_ohsumed():
 
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
+    nlp += Sequence(max_features=max_features, maxlen=maxlen, unk_token=False)
     nlp.verbose = False
     # process train data
     X_train = nlp(train.text)
@@ -95,9 +85,7 @@ def load_ohsumed():
     return (X_train, y_train), (X_test, y_test)
 
 
-def load_imdb():
-    MAXLEN = 500
-    MAX_FEATURES = 100000
+def load_imdb(maxlen=500, max_features=100000):
     df = pd.read_csv("imdb/IMDB Dataset.csv")
     df = df.sample(frac=1, random_state=1)
     train = df.iloc[:25000]
@@ -105,7 +93,7 @@ def load_imdb():
 
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
+    nlp += Sequence(max_features=max_features, maxlen=maxlen, unk_token=False)
     # process train data
     X_train = nlp(train.review)
     y_train = np.array([1 if it == "positive" else 0
@@ -117,10 +105,7 @@ def load_imdb():
     return (X_train, y_train), (X_test, y_test)
 
 
-def load_r8():
-    MAX_FEATURES = 100000
-    MAXLEN = 500
-
+def load_r8(maxlen=500, max_features=100000):
     one_hot = OneHot(verbose=False)
     # get training data
     train = pd.read_csv("r8/r8-train-stemmed.csv")
@@ -129,7 +114,7 @@ def load_r8():
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
     # nlp += CountFilter(min_tf=4)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
+    nlp += Sequence(max_features=max_features, maxlen=maxlen, unk_token=False)
     nlp.verbose = False
     # process train data
     X_train = nlp(train.text)
