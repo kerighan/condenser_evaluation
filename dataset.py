@@ -15,7 +15,7 @@ def load_AG():
     y_test = test["Class Index"].astype(int).values
 
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
     nlp.verbose = False
     X_train = nlp(train.text)
     X_test = nlp(test.text)
@@ -64,7 +64,7 @@ def load_MR():
     test = data[data.dataset == "test"]
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
     nlp.verbose = False
     X_train = nlp(train.text)
     X_test = nlp(test.text)
@@ -83,7 +83,7 @@ def load_ohsumed():
 
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
     nlp.verbose = False
     # process train data
     X_train = nlp(train.text)
@@ -105,7 +105,7 @@ def load_imdb():
 
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
     # process train data
     X_train = nlp(train.review)
     y_train = np.array([1 if it == "positive" else 0
@@ -129,7 +129,7 @@ def load_r8():
     # create a preprocessing pipeline using Convectors
     nlp = Tokenize(strip_punctuation=False, lower=True)
     # nlp += CountFilter(min_tf=4)
-    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN)
+    nlp += Sequence(max_features=MAX_FEATURES, maxlen=MAXLEN, unk_token=False)
     nlp.verbose = False
     # process train data
     X_train = nlp(train.text)
