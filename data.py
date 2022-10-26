@@ -127,10 +127,28 @@ def load_r52():
     return (X_train, y_train), (X_test, y_test)
 
 
+def load_oh():
+    one_hot = OneHot(verbose=False)
+    # get training data
+    train = pd.read_csv(f"oh/oh-train-stemmed.csv")
+    test = pd.read_csv(f"oh/oh-test-stemmed.csv")
+
+    nlp = get_nlp_model()
+    # process train data
+    X_train = nlp(train.text)
+    one_hot(test.intent.tolist() + train.intent.tolist())
+    y_train = one_hot(train.intent)
+    # process test data
+    X_test = nlp(test.text)
+    y_test = one_hot(test.intent)
+    # get number of features
+    return (X_train, y_train), (X_test, y_test)
+
+
 def load(dataset):
-    if dataset == "20NG":
+    if dataset == "20ng":
         return load_20NG()
-    elif dataset == "MR":
+    elif dataset == "mr":
         return load_MR()
     elif dataset == "ohsumed":
         return load_ohsumed()
@@ -140,5 +158,7 @@ def load(dataset):
         return load_r8()
     elif dataset == "r52":
         return load_r52()
+    elif dataset == "oh":
+        return load_oh()
     else:
         raise ValueError(f"dataset {dataset} unknown")
