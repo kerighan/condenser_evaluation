@@ -4,12 +4,12 @@ from convectors.layers import OneHot, Sequence, Tokenize
 from convectors.linguistics import CountFilter
 
 MAX_FEATURES = 100000
-MAXLEN = 600
+MAXLEN = 500
 
 
-def get_nlp_model():
+def get_nlp_model(maxlen):
     nlp = Tokenize(strip_punctuation=False, lower=True)
-    nlp += Sequence(maxlen=MAXLEN, max_features=MAX_FEATURES, min_df=2)
+    nlp += Sequence(maxlen=maxlen, max_features=MAX_FEATURES, min_df=2)
     nlp.verbose = False
     return nlp
 
@@ -21,7 +21,7 @@ def load_20NG():
     newsgroups_train = fetch_20newsgroups(subset='train')
     newsgroups_test = fetch_20newsgroups(subset='test')
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(700)
     # process train data
     X_train = nlp(newsgroups_train.data)
     y_train = newsgroups_train.target
@@ -48,7 +48,7 @@ def load_MR():
     train = data[data.dataset == "train"]
     test = data[data.dataset == "test"]
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     X_train = nlp(train.text)
     X_test = nlp(test.text)
     y_train = train.label.values
@@ -62,7 +62,7 @@ def load_ohsumed():
     train = pd.read_csv(f"oh/oh-train-stemmed.csv")
     test = pd.read_csv(f"oh/oh-test-stemmed.csv")
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     # process train data
     X_train = nlp(train.text)
     one_hot(test.intent.tolist() + train.intent.tolist())
@@ -79,7 +79,7 @@ def load_imdb():
     train = df.iloc[:25000]
     test = df.iloc[25000:]
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     # process train data
     X_train = nlp(train.review)
     y_train = np.array([1 if it == "positive" else 0
@@ -97,7 +97,7 @@ def load_r8():
     train = pd.read_csv("r8/r8-train-stemmed.csv")
     test = pd.read_csv("r8/r8-test-stemmed.csv")
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     # process train data
     X_train = nlp(train.text)
     one_hot(test.intent.tolist() + train.intent.tolist())
@@ -115,7 +115,7 @@ def load_r52():
     train = pd.read_csv("r52/r52-train-stemmed.csv")
     test = pd.read_csv("r52/r52-test-stemmed.csv")
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     # process train data
     X_train = nlp(train.text)
     one_hot(test.intent.tolist() + train.intent.tolist())
@@ -133,7 +133,7 @@ def load_oh():
     train = pd.read_csv(f"oh/oh-train-stemmed.csv")
     test = pd.read_csv(f"oh/oh-test-stemmed.csv")
 
-    nlp = get_nlp_model()
+    nlp = get_nlp_model(MAXLEN)
     # process train data
     X_train = nlp(train.text)
     one_hot(test.intent.tolist() + train.intent.tolist())

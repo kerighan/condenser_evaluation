@@ -1,0 +1,11 @@
+,model,accuracy,run
+0,r52_weighted_500d_batch40,0.9334,0
+1,r52_weighted_500d_batch40,0.9357,1
+2,r52_weighted_500d_batch40,0.9342,2
+3,r52_weighted_500d_batch40,0.935,3
+4,r52_weighted_500d_batch40,0.9326,4
+5,r52_weighted_500d_batch40,0.9295,5
+6,r52_weighted_500d_batch40,0.935,6
+7,r52_weighted_500d_batch40,0.9334,7
+8,r52_weighted_500d_batch40,0.9357,8
+9,r52_weighted_500d_batch40,0.9354,9

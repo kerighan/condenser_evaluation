@@ -12,7 +12,7 @@ from data import load
 
 def train_model(
     X_train, y_train, X_test, y_test,
-    method="condenser", embedding_dim=500, batch_size=50, epochs=10
+    method="condenser", embedding_dim=500, batch_size=40, epochs=10
 ):
     # infer sizing parameters from
     maxlen = X_train.shape[1]
@@ -72,11 +72,12 @@ def train_model(
     model = models.Model(input, output)
     model.compile("nadam", "sparse_categorical_crossentropy",
                   metrics=["accuracy"])
+    model.summary()
     # train model
     history = model.fit(X_train, y_train,
                         batch_size=batch_size, epochs=epochs,
                         validation_data=(X_test, y_test),
-                        shuffle=True, verbose=False)
+                        shuffle=True, verbose=True)
     del model  # sanity check
     # get best accuracy
     best_val_acc = max(history.history["val_accuracy"])
@@ -85,7 +86,7 @@ def train_model(
 
 
 def benchmark_model(
-    dataset, method, embedding_dim=500, epochs=10, batch_size=50, n_runs=10,
+    dataset, method, embedding_dim=500, epochs=10, batch_size=40, n_runs=10,
     to_drive=False
 ):
     if to_drive:
@@ -122,7 +123,7 @@ def benchmark_model(
 
 
 def benchmark_all_models(
-    dataset, to_drive=False, epochs=10, batch_size=50, embedding_dim=500, n_runs=10
+    dataset, to_drive=False, epochs=10, batch_size=40, embedding_dim=500, n_runs=10
 ):
     for method in [
         "condenser",
@@ -137,8 +138,12 @@ def benchmark_all_models(
                         epochs=epochs, batch_size=batch_size, n_runs=n_runs)
 
 
-def benchmark_all(to_drive=True, epochs=10, batch_size=50, n_runs=10):
+def benchmark_all(to_drive=True, epochs=10, batch_size=40, n_runs=10):
     for dataset in ["r52", "oh", "mr", "imdb", "r8", "20ng"]:
         benchmark_all_models(dataset, to_drive=to_drive,
                              epochs=epochs, n_runs=n_runs,
                              batch_size=batch_size)
+
+
+if __name__ == "__main__":
+    benchmark_model("r52", "condenser")
