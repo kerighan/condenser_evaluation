@@ -1,0 +1,11 @@
+,model,accuracy,run
+0,r52_average_500d_batch40,0.9408,0
+1,r52_average_500d_batch40,0.9416,1
+2,r52_average_500d_batch40,0.9393,2
+3,r52_average_500d_batch40,0.9373,3
+4,r52_average_500d_batch40,0.9404,4
+5,r52_average_500d_batch40,0.9377,5
+6,r52_average_500d_batch40,0.9439,6
+7,r52_average_500d_batch40,0.9377,7
+8,r52_average_500d_batch40,0.9443,8
+9,r52_average_500d_batch40,0.9377,9

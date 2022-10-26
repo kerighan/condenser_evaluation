@@ -133,18 +133,11 @@ def benchmark_all_models(
         "condenser_weighted"
     ]:
         benchmark_model(dataset, method, to_drive=to_drive,
-                        epochs=epochs, n_runs=n_runs)
+                        epochs=epochs, batch_size=batch_size, n_runs=n_runs)
 
 
-def benchmark_all(to_drive=True, epochs=10, n_runs=10):
-    for dataset in ["r52", "oh", "mr", "imdb", "r8"]:
+def benchmark_all(to_drive=True, epochs=10, batch_size=50, n_runs=10):
+    for dataset in ["r52", "oh", "mr", "imdb", "r8", "20ng"]:
         benchmark_all_models(dataset, to_drive=to_drive,
-                             epochs=epochs, n_runs=n_runs)
-
-
-if __name__ == "__main__":
-    benchmark_all_models("r52")
-    benchmark_all_models("oh")
-    benchmark_all_models("mr")
-    benchmark_all_models("imdb")
-    benchmark_all_models("r8")
+                             epochs=epochs, n_runs=n_runs,
+                             batch_size=batch_size)

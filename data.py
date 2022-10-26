@@ -150,7 +150,7 @@ def load(dataset):
         return load_20NG()
     elif dataset == "mr":
         return load_MR()
-    elif dataset == "ohsumed":
+    elif dataset == "oh":
         return load_ohsumed()
     elif dataset == "imdb":
         return load_imdb()
@@ -158,7 +158,5 @@ def load(dataset):
         return load_r8()
     elif dataset == "r52":
         return load_r52()
-    elif dataset == "oh":
-        return load_oh()
     else:
         raise ValueError(f"dataset {dataset} unknown")
