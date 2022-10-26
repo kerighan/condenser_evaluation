@@ -111,6 +111,9 @@ def benchmark_model(
         from google.colab import drive
         try:
             drive.mount('/content/drive')
+        except Exception:
+            pass
+        try:
             shutil.copy(file_path, "/content/drive/MyDrive/")
         except Exception:
             pass
