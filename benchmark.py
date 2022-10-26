@@ -122,7 +122,7 @@ def benchmark_model(
 
 
 def benchmark_all_models(
-    dataset, to_drive=False, epochs=10, batch_size=50, embedding_size=500, n_runs=10
+    dataset, to_drive=False, epochs=10, batch_size=50, embedding_dim=500, n_runs=10
 ):
     for method in [
         "condenser",
@@ -133,7 +133,7 @@ def benchmark_all_models(
         "token",
     ]:
         benchmark_model(dataset, method, to_drive=to_drive,
-                        embedding_size=embedding_size,
+                        embedding_dim=embedding_dim,
                         epochs=epochs, batch_size=batch_size, n_runs=n_runs)
 
 
