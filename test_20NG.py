@@ -1,24 +1,15 @@
-import tensorflow as tf
 from condenser import Condenser, SelfAttention
 from convectors.layers import Sequence, Tokenize
-from keras_self_attention import SeqSelfAttention
 from sklearn.datasets import fetch_20newsgroups
-from tensorflow.keras.layers import (Activation, Dense, Dropout, Embedding,
-                                     GlobalAveragePooling1D, Input)
-from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Dense, Embedding, Input
+from tensorflow.keras.models import Model
 
-# 0.8796
 # -----------------------------------------------------------------------------
 # Parameters
 # -----------------------------------------------------------------------------
 MAX_FEATURES = 100000
 EMBEDDING_DIM = 500
-MAXLEN = 500
-SELF_ATT_PARAMS = {
-    "attention_activation": "leaky_relu",
-    "attention_width": 12,
-    "attention_type": SeqSelfAttention.ATTENTION_TYPE_MUL,
-}
+MAXLEN = 600
 
 # -----------------------------------------------------------------------------
 # NLP Pipeline
@@ -46,8 +37,6 @@ n_features = nlp["Sequence"].n_features + 1
 # -----------------------------------------------------------------------------
 inp = Input(shape=(MAXLEN,))
 x = Embedding(n_features, EMBEDDING_DIM, mask_zero=True)(inp)
-# x = SeqSelfAttention(**SELF_ATT_PARAMS)(x)
-# x = SeqSelfAttention(**SELF_ATT_PARAMS)(x)
 x = SelfAttention()(x)
 x = SelfAttention()(x)
 x = Condenser(n_sample_points=15,
