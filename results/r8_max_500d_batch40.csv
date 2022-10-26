@@ -1,0 +1,11 @@
+,model,accuracy,run
+0,r8_max_d500_batch40,0.9698,0
+1,r8_max_d500_batch40,0.9689,1
+2,r8_max_d500_batch40,0.9717,2
+3,r8_max_d500_batch40,0.9694,3
+4,r8_max_d500_batch40,0.9698,4
+5,r8_max_d500_batch40,0.974,5
+6,r8_max_d500_batch40,0.9712,6
+7,r8_max_d500_batch40,0.9721,7
+8,r8_max_d500_batch40,0.973,8
+9,r8_max_d500_batch40,0.9698,9
