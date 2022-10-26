@@ -133,6 +133,7 @@ def benchmark_all_models(
         "condenser_weighted"
     ]:
         benchmark_model(dataset, method, to_drive=to_drive,
+                        embedding_size=embedding_size,
                         epochs=epochs, batch_size=batch_size, n_runs=n_runs)
 
 
