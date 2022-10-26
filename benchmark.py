@@ -118,7 +118,7 @@ def benchmark_all_models(dataset):
 
 
 if __name__ == "__main__":
-    # benchmark_all_models("r8")
+    benchmark_all_models("r8")
     benchmark_all_models("r52")
     benchmark_all_models("oh")
     benchmark_all_models("mr")
