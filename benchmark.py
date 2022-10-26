@@ -1,3 +1,5 @@
+import shutil
+
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -86,6 +88,13 @@ def benchmark_model(
     dataset, method, embedding_dim=500, epochs=10, batch_size=40, n_runs=10,
     to_drive=False
 ):
+    if to_drive:
+        from google.colab import drive
+        try:
+            drive.mount('/content/drive')
+        except Exception:
+            pass
+
     (X_train, y_train), (X_test, y_test) = load(dataset)
     filename = f"{dataset}_{method}_{embedding_dim}d_batch{batch_size}"
     print(filename)
@@ -106,13 +115,6 @@ def benchmark_model(
     file_path = f"results/{filename}.csv"
     results.to_csv(file_path)
     if to_drive:
-        import shutil
-
-        from google.colab import drive
-        try:
-            drive.mount('/content/drive')
-        except Exception:
-            pass
         try:
             shutil.copy(file_path, "/content/drive/MyDrive/condenser/")
         except Exception:
