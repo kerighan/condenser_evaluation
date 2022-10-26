@@ -83,7 +83,8 @@ def train_model(
 
 
 def benchmark_model(
-    dataset, method, embedding_dim=500, epochs=10, batch_size=40, n_runs=10
+    dataset, method, embedding_dim=500, epochs=10, batch_size=40, n_runs=10,
+    to_drive=False
 ):
     (X_train, y_train), (X_test, y_test) = load(dataset)
     filename = f"{dataset}_{method}_{embedding_dim}d_batch{batch_size}"
@@ -99,13 +100,23 @@ def benchmark_model(
         })
         print("---", accuracy)
     results = pd.DataFrame(results)
-    print(round(results.accuracy.mean(), 4),
-          round(np.std(results.accuracy), 4))
+    print(round(results.accuracy.mean(), 4))
     print()
-    results.to_csv(f"results/{filename}.csv")
+
+    file_path = f"results/{filename}.csv"
+    results.to_csv(file_path)
+    if to_drive:
+        import shutil
+
+        from google.colab import drive
+        try:
+            drive.mount('/content/drive')
+            shutil.copy(file_path, "/content/drive/MyDrive/")
+        except Exception:
+            pass
 
 
-def benchmark_all_models(dataset):
+def benchmark_all_models(dataset, to_drive=False, epochs=10):
     for method in [
         "max",
         "average",
@@ -114,7 +125,12 @@ def benchmark_all_models(dataset):
         "condenser",
         "condenser_weighted"
     ]:
-        benchmark_model(dataset, method)
+        benchmark_model(dataset, method, to_drive=to_drive, epochs=epochs)
+
+
+def benchmark_all(to_drive=True, epochs=10):
+    for dataset in ["r52", "oh", "mr", "imdb", "r8"]:
+        benchmark_all_models(dataset, to_drive=to_drive, epochs=epochs)
 
 
 if __name__ == "__main__":
