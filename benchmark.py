@@ -114,12 +114,14 @@ def benchmark_model(
         except Exception:
             pass
         try:
-            shutil.copy(file_path, "/content/drive/MyDrive/")
+            shutil.copy(file_path, "/content/drive/MyDrive/condenser/")
         except Exception:
             pass
 
 
-def benchmark_all_models(dataset, to_drive=False, epochs=10):
+def benchmark_all_models(
+    dataset, to_drive=False, epochs=10, batch_size=40, embedding_size=500, n_runs=10
+):
     for method in [
         "max",
         "average",
@@ -128,12 +130,14 @@ def benchmark_all_models(dataset, to_drive=False, epochs=10):
         "condenser",
         "condenser_weighted"
     ]:
-        benchmark_model(dataset, method, to_drive=to_drive, epochs=epochs)
+        benchmark_model(dataset, method, to_drive=to_drive,
+                        epochs=epochs, n_runs=n_runs)
 
 
-def benchmark_all(to_drive=True, epochs=10):
+def benchmark_all(to_drive=True, epochs=10, n_runs=10):
     for dataset in ["r52", "oh", "mr", "imdb", "r8"]:
-        benchmark_all_models(dataset, to_drive=to_drive, epochs=epochs)
+        benchmark_all_models(dataset, to_drive=to_drive,
+                             epochs=epochs, n_runs=n_runs)
 
 
 if __name__ == "__main__":
