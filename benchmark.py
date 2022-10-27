@@ -63,6 +63,8 @@ def train_model(
         pooling = WeightedAttention()(att_2)
     elif method == "token":
         pooling = layers.Lambda(lambda x: x[:, 0, :])(att_2)
+    else:
+        raise ValueError
 
     if n_labels == 2:
         output = layers.Dense(1, activation="sigmoid")(pooling)
@@ -127,7 +129,7 @@ def benchmark_all_models(
 ):
     for method in [
         "condenser",
-        "condenser_weighted"
+        "condenser_weighted",
         "max",
         "average",
         "weighted",
@@ -139,11 +141,11 @@ def benchmark_all_models(
 
 
 def benchmark_all(to_drive=True, epochs=10, batch_size=40, n_runs=10):
-    for dataset in ["r52", "oh", "mr", "imdb", "r8", "20ng"]:
+    for dataset in ["r8", "20ng", "r52", "oh", "mr", "imdb"]:
         benchmark_all_models(dataset, to_drive=to_drive,
                              epochs=epochs, n_runs=n_runs,
                              batch_size=batch_size)
 
 
 if __name__ == "__main__":
-    benchmark_model("r52", "condenser")
+    benchmark_model("r52", "condenser_weighted")
